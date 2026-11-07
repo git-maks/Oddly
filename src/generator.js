@@ -27,6 +27,26 @@ export const LEVELS = Object.freeze([
   }),
 ]);
 
+// Weight letters by eligible recipes, so a rare initial is not overrepresented.
+// Wild's middle/end syllables are shared by every letter and need no extra weight.
+const alliterationGroups = [
+  [cleanAdjectives, cleanAnimals],
+  [allAdjectives, allAdjectives, allAnimals],
+  [prefixes, rareAdjectives, allAnimals],
+].map((banks, level) => [...new Set(banks[0].map((word) => word[0].toUpperCase()))].map((letter) => {
+  const matching = banks.map((bank) => bank.filter((word) => word[0].toUpperCase() === letter));
+  const weight = matching.reduce((count, bank, index) => count * (bank.length - (level === 1 && index === 1 ? 1 : 0)), 1);
+  return { banks: matching, weight };
+}).filter((group) => group.weight > 0));
+const alliterationWeights = alliterationGroups.map((groups) => groups.reduce((total, group) => total + group.weight, 0));
+
+export function countCombinations(level, { alliteration = false } = {}) {
+  if (!Number.isInteger(level) || !LEVELS[level]) throw new RangeError('Unknown obscurity level.');
+  if (!alliteration) return LEVELS[level].combinations;
+  const count = BigInt(alliterationWeights[level]);
+  return level === 2 ? count * BigInt(middles.length) * BigInt(endings.length) : count;
+}
+
 const UINT32_RANGE = 2 ** 32;
 
 // Rejection sampling avoids the modulo bias of randomValue % max.
@@ -51,21 +71,34 @@ export function createGenerator({ randomInt = secureRandomInt, recentLimit = 200
   const queue = [];
   const pick = (items) => items[randomInt(items.length)];
 
-  function candidate(level) {
-    if (level === 0) return [pick(cleanAdjectives), pick(cleanAnimals)];
-    if (level === 1) {
-      const first = randomInt(allAdjectives.length);
-      const second = (first + 1 + randomInt(allAdjectives.length - 1)) % allAdjectives.length;
-      return [allAdjectives[first], allAdjectives[second], pick(allAnimals)];
+  function candidate(level, alliteration) {
+    let banks = level === 0 ? [cleanAdjectives, cleanAnimals]
+      : level === 1 ? [allAdjectives, allAdjectives, allAnimals]
+        : [prefixes, rareAdjectives, allAnimals];
+    if (alliteration) {
+      let ticket = randomInt(alliterationWeights[level]);
+      const group = alliterationGroups[level].find((item) => {
+        if (ticket < item.weight) return true;
+        ticket -= item.weight;
+        return false;
+      });
+      banks = group.banks;
     }
-    const invented = pick(prefixes) + pick(middles) + pick(endings);
-    return [invented[0].toUpperCase() + invented.slice(1), pick(rareAdjectives), pick(allAnimals)];
+    if (level === 0) return [pick(banks[0]), pick(banks[1])];
+    if (level === 1) {
+      const adjectives = banks[0];
+      const first = randomInt(adjectives.length);
+      const second = (first + 1 + randomInt(adjectives.length - 1)) % adjectives.length;
+      return [adjectives[first], adjectives[second], pick(banks[2])];
+    }
+    const invented = pick(banks[0]) + pick(middles) + pick(endings);
+    return [invented[0].toUpperCase() + invented.slice(1), pick(banks[1]), pick(banks[2])];
   }
 
-  function generate(level = 0) {
+  function generate(level = 0, { alliteration = false } = {}) {
     if (!Number.isInteger(level) || !LEVELS[level]) throw new RangeError('Unknown obscurity level.');
     for (let attempt = 0; attempt < 100; attempt++) {
-      const parts = candidate(level);
+      const parts = candidate(level, alliteration);
       const name = parts.join('');
       if (recent.has(name)) continue;
       recent.add(name);

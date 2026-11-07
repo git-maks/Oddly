@@ -1,4 +1,4 @@
-import { createGenerator, LEVELS, formatCombinations } from './generator.js';
+import { createGenerator, LEVELS, formatCombinations, countCombinations } from './generator.js';
 import { loadSaved, persistSaved, MAX_SAVED, SAVED_KEY } from './storage.js';
 
 const $ = (selector) => document.querySelector(selector);
@@ -8,6 +8,7 @@ let browserStorage;
 try { browserStorage = window.localStorage; } catch { /* Private browser policies may block storage. */ }
 let saved = loadSaved(browserStorage);
 let level = 0;
+let alliteration = false;
 let current;
 let toastTimer;
 let copyTimer;
@@ -173,7 +174,7 @@ function showCurrent(entry, animate = true) {
 
 function generate(count = 1, announce = false) {
   try {
-    const batch = Array.from({ length: count }, () => engine.generate(level));
+    const batch = Array.from({ length: count }, () => engine.generate(level, { alliteration }));
     history.unshift(...batch.slice().reverse());
     history.splice(48);
     showCurrent(batch.at(-1));
@@ -190,9 +191,7 @@ function setLevel(value) {
   $('#obscurity').setAttribute('aria-valuetext', `${config.name}: ${config.description}`);
   $('#level-index').textContent = `0${level + 1}—03`;
   $('#level-description').textContent = config.description;
-  $('#combination-count').textContent = formatCombinations(config.combinations);
-  $('#combination-count').title = `${config.combinations.toLocaleString('en-US')} word recipes`;
-  $('#combination-note').textContent = config.note;
+  updateCombinations();
   const recipe = [];
   config.recipe.forEach((word, index) => {
     if (index) recipe.push(Object.assign(document.createElement('b'), { textContent: '+' }));
@@ -206,6 +205,13 @@ function setLevel(value) {
     button.setAttribute('aria-pressed', active);
   });
   generate();
+}
+
+function updateCombinations() {
+  const count = countCombinations(level, { alliteration });
+  $('#combination-count').textContent = formatCombinations(count);
+  $('#combination-count').title = `${count.toLocaleString('en-US')} word recipes`;
+  $('#combination-note').textContent = alliteration ? 'Same first letter. A little extra rhythm.' : LEVELS[level].note;
 }
 
 function exportNames(entries, kind) {
@@ -225,6 +231,13 @@ $('#generate-batch').addEventListener('click', () => generate(12, true));
 $('#copy-current').addEventListener('click', (event) => { if (current) copyName(current.name, event.currentTarget); });
 $('#save-current').addEventListener('click', () => { if (current) toggleSaved(current); });
 $('#obscurity').addEventListener('input', (event) => setLevel(event.target.value));
+// Reset on every page load, including browsers that restore form control values.
+$('#alliteration').checked = false;
+$('#alliteration').addEventListener('change', (event) => {
+  alliteration = event.target.checked;
+  updateCombinations();
+  generate();
+});
 document.querySelectorAll('button[data-level]').forEach((button) => button.addEventListener('click', () => setLevel(button.dataset.level)));
 $('#export-recent').addEventListener('click', () => exportNames(history, 'recent'));
 $('#export-saved').addEventListener('click', () => exportNames(saved, 'saved'));

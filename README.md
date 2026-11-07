@@ -55,6 +55,7 @@ GitHub references: [publishing source](https://docs.github.com/en/pages/getting-
 - **Curious:** two different adjectives + any animal, e.g. `ArcaneMistyQuokka`.
 - **Wild:** an invented eight-letter word + uncommon adjective + any animal, e.g. `XyloveneUmbralAxolotl`. Invented words are intentional and are not guaranteed to be real words or free of unintended meanings in every language.
 - Instantly switch modes with the obscurity slider or its three labels.
+- Optional **Same first letter** switch, off on every page load. All recipe components share their initial: `QuietQuokka` or `MistyMellowMouse`. Applies to individual names and batches at every obscurity level, including the invented word in Wild.
 - Names always use ASCII PascalCase; accented animal names are normalized for compatibility.
 - Generate one name or a batch of 12; keep the latest 48 in the current session.
 - Save up to 100 favorites in this browser, synchronized between tabs of the same origin.
@@ -73,6 +74,8 @@ The UI computes each mode's theoretical word-recipe count from the actual dictio
 - Wild: `prefixes × middles × endings × uncommon adjectives × all animals`.
 
 The included dictionaries provide **75,429 Clean**, **131,357,646 Curious**, and **78,982,881,705 Wild** word recipes.
+
+With **Same first letter** enabled, only matching-initial recipes are eligible. The UI shows the smaller, exact recipe count. Initial letters are weighted by their number of eligible recipes, maintaining uniform recipe selection rather than overrepresenting rare initials. Curious still uses two different adjectives. Repeat protection is shared between normal and alliterative generation.
 
 The invented word uses fixed-width syllables of `3 + 2 + 3` letters. All dictionaries are original curated lists in [src/words.js](src/words.js), editable without a build tool. Word combinations do **not** guarantee platform availability, uniqueness across users, or compliance with every platform's length limit. Higher obscurity makes independent collisions less likely when choices are uniform; the app does not perform availability checks.
 
