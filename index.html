@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f5ef">
+    <meta name="description" content="Find your next alter ego. Generate memorable adjective + animal usernames, from clean combinations to wonderfully strange inventions. Private by design.">
+    <meta name="color-scheme" content="light">
+    <title>Oddly — a name of your own</title>
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+    <link rel="stylesheet" href="./styles.css">
+    <script type="module" src="./src/app.js"></script>
+  </head>
+  <body>
+    <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5Z"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
+      <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16l-6-4-6 4Z"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+    </svg>
+
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="brand" href="./" aria-label="Oddly home"><span class="brand-mark" aria-hidden="true">✳</span>oddly<span class="brand-dot">.</span></a>
+        <span class="brand-caption">A NAME OF YOUR OWN</span>
+        <nav aria-label="Main navigation">
+          <button class="text-button about-button" id="about-open">The idea <span aria-hidden="true">↗</span></button>
+          <button class="saved-button" id="saved-open"><svg class="icon"><use href="#i-bookmark"/></svg> Saved <span class="count-badge" id="saved-count">0</span></button>
+        </nav>
+      </header>
+
+      <main>
+        <section class="intro" aria-labelledby="page-title">
+          <div>
+            <p class="eyebrow"><span class="tiny-line"></span> A LITTLE RANDOM. ENTIRELY YOU.</p>
+            <h1 id="page-title">Meet your next<br><em>alter ego.</em><span class="title-star" aria-hidden="true">✳</span></h1>
+          </div>
+          <div class="intro-note"><p>Good words. Unlikely combinations.<br>A username that feels like a discovery.</p><span class="privacy-note"><span class="status-dot"></span> Generated on your device</span></div>
+        </section>
+
+        <section class="workbench" aria-label="Username generator">
+          <aside class="settings">
+            <div class="section-heading"><span class="eyebrow">01 / SET THE MOOD</span><span class="setting-symbol" aria-hidden="true">↗</span></div>
+            <div class="level-heading"><label for="obscurity">Obscurity level</label><span id="level-index">01—03</span></div>
+            <input type="range" id="obscurity" min="0" max="2" step="1" value="0" aria-describedby="level-description" aria-valuetext="Clean: familiar words, short names">
+            <div class="level-stops" aria-label="Choose obscurity level">
+              <button data-level="0" class="active" aria-pressed="true">Clean</button>
+              <button data-level="1" aria-pressed="false">Curious</button>
+              <button data-level="2" aria-pressed="false">Wild <span aria-hidden="true">✳</span></button>
+            </div>
+            <p class="level-description" id="level-description">Familiar words. Easy to say, easy to remember. A classic for a reason.</p>
+            <div class="recipe-section"><span class="small-label">THE RECIPE</span><div class="recipe" id="recipe"><span>Adjective</span><b>+</b><span>Animal</span></div></div>
+            <div class="possibilities"><span class="small-label">POSSIBLE COMBINATIONS</span><strong id="combination-count">—</strong><span id="combination-note">Small words. Plenty of personality.</span></div>
+            <p class="availability-note">More obscure ≠ guaranteed available.<br> Check your favorite platform before claiming.</p>
+          </aside>
+
+          <div class="generator" id="generator-panel" data-level="0">
+            <div class="generator-top"><span class="output-label"><span class="status-dot"></span> YOUR NEXT POSSIBILITY</span><button class="icon-button current-save" id="save-current" aria-label="Save current name" aria-pressed="false"><svg class="icon"><use href="#i-bookmark"/></svg></button></div>
+            <div class="name-stage">
+              <div class="name-art" aria-hidden="true"><svg viewBox="0 0 160 100" fill="none"><path d="M27 64c-21-15-7-48 15-32 7-31 46-30 51 0 26-20 48 7 28 29" stroke="currentColor" stroke-width="2"/><path d="M32 65c0-26 75-26 84 0v8c0 26-84 26-84 0Z" fill="currentColor" opacity=".10"/><path d="M32 65c0-26 75-26 84 0v8c0 26-84 26-84 0Z" stroke="currentColor" stroke-width="2"/><path d="M58 66v5m31-5v5m-20 6c3 4 8 4 11 0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="m133 20 2 7 7 2-7 2-2 7-2-7-7-2 7-2Z" fill="currentColor"/></svg></div>
+              <h2 class="generated-name" id="current-name" aria-live="polite" aria-atomic="true"><span>Finding your name…</span></h2>
+              <p class="name-subtitle" id="name-subtitle">A good name is a fresh start.</p>
+            </div>
+            <div class="generator-actions"><button class="primary-button" id="generate"><svg class="icon"><use href="#i-spark"/></svg>Generate name<svg class="icon arrow-icon"><use href="#i-arrow"/></svg></button><button class="copy-button" id="copy-current"><svg class="icon"><use href="#i-copy"/></svg><span>Copy name</span></button></div>
+            <div class="output-meta"><span><span class="meta-dot"></span>PascalCase <span class="meta-divider">/</span> <span id="character-count">— characters</span></span><span class="keyboard-tip"><kbd>space</kbd> to shuffle <span class="meta-divider">·</span> <kbd>c</kbd> to copy</span></div>
+          </div>
+        </section>
+
+        <section class="recent-section" aria-labelledby="recent-title">
+          <div class="recent-header"><div><h2 id="recent-title">The maybe pile<span id="recent-count">00</span></h2><p>Recent discoveries. Keep the ones that feel like you.</p></div><div class="recent-actions"><button class="text-button export-button" id="export-recent" aria-label="Download recent names as a text file"><svg class="icon"><use href="#i-download"/></svg> Export</button><button class="batch-button" id="generate-batch"><svg class="icon"><use href="#i-grid"/></svg> Make 12 more</button></div></div>
+          <div class="recent-grid" id="recent-list"></div>
+          <p class="history-note">Your latest 48 names stay here for this session. Saved names stay in this browser.</p>
+        </section>
+      </main>
+
+      <footer class="site-footer"><span>Stay curious. Stay a little <em>odd.</em></span><span><svg class="icon"><use href="#i-lock"/></svg> No accounts. No trackers. Just possibilities.</span><button class="text-button" id="about-footer">How it works <span aria-hidden="true">↗</span></button></footer>
+    </div>
+
+    <dialog id="saved-dialog" aria-labelledby="saved-title"><div class="dialog-header"><div><p class="eyebrow">THE KEEPERS</p><h2 id="saved-title">Your saved names<span id="dialog-saved-count"></span></h2></div><button class="icon-button" data-close="saved-dialog" aria-label="Close saved names"><svg class="icon"><use href="#i-close"/></svg></button></div><p class="dialog-intro">A small collection of possible yous. Stored only in this browser.</p><div id="saved-list" class="saved-list"></div><div class="dialog-footer"><span>Up to 100 favorites.</span><button class="batch-button" id="export-saved"><svg class="icon"><use href="#i-download"/></svg> Export saved</button></div></dialog>
+
+    <dialog id="about-dialog" aria-labelledby="about-title"><div class="dialog-header"><div><p class="eyebrow">PLEASANTLY UNPREDICTABLE</p><h2 id="about-title">A little method<br>to the randomness.</h2></div><button class="icon-button" data-close="about-dialog" aria-label="Close explanation"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="about-content"><p>Oddly pairs words you know with animals you might not. Every name is written in <strong>PascalCase</strong>: no spaces, each word starts with a capital.</p><ol><li><strong>Clean</strong><span>One familiar adjective + one animal. Short and memorable.</span></li><li><strong>Curious</strong><span>Two different adjectives + an animal, with a wider vocabulary.</span></li><li><strong>Wild</strong><span>An invented word + an uncommon adjective + an animal. Longer, stranger, and drawn from billions of combinations.</span></li></ol><p>Names are picked with your browser’s cryptographic random generator. The last 2,000 generated names won’t repeat in this session.</p><p>Combination counts describe the recipe’s search space, not the number of available accounts. Oddly doesn’t contact platforms or check availability.</p><p>A random name can keep personal details out of your handle. Reusing it across platforms can still connect your accounts. It’s a pseudonym, not an anonymity service.</p><p class="about-privacy"><svg class="icon"><use href="#i-lock"/></svg><span>Generation runs on your device. No analytics, remote fonts, or third-party requests from this app. Your hosting provider may still keep standard request logs.</span></p></div></dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <noscript><div class="noscript">Enable JavaScript to generate names. Everything runs locally in your browser.</div></noscript>
+  </body>
+</html>
