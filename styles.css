@@ -13,7 +13,7 @@
 @layer base {
   :root { --paper: #f5f5ef; --ink: #253e32; --muted: #73796e; --line: #dddfd4; --green: #264536; --lime: #e0edaf; --serif: Georgia, 'Times New Roman', serif; --sans: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; }
   html { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 14px; scroll-behavior: smooth; }
-  body { min-width: 320px; }
+  body { min-width: 0; }
   button { border: 0; background: none; }
   a { color: inherit; text-decoration: none; }
   button, a, input { touch-action: manipulation; }
@@ -26,12 +26,14 @@
   .icon-definitions { position: absolute; width: 0; height: 0; overflow: hidden; }
   .icon { width: 19px; height: 19px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
   .site-shell { max-width: 1248px; margin: auto; padding: 0 56px; }
-  .site-header { height: 104px; display: flex; align-items: center; border-bottom: 1px solid var(--line); gap: 23px; }
+  .site-header { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; border-bottom: 1px solid var(--line); column-gap: 28px; padding: 27px 0; margin-bottom: 25px; }
+  .brand-group { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
   .brand { display: inline-flex; align-items: center; font-size: 33px; font-weight: 750; letter-spacing: -1.8px; }
   .brand-mark { font-size: 41px; font-weight: 500; margin-right: 11px; line-height: 1; }
   .brand-dot { color: #839550; }
-  .brand-caption { border-left: 1px solid #cbd0bf; padding-left: 23px; color: #767e70; font-size: 9px; letter-spacing: 1.8px; font-weight: 650; }
-  .site-header nav { margin-left: auto; display: flex; align-items: center; gap: 28px; }
+  .brand-caption { color: #767e70; font-size: 8px; letter-spacing: 1.3px; font-weight: 650; }
+  .header-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+  .site-header nav { display: flex; align-items: center; gap: 22px; }
   .text-button { display: inline-flex; align-items: center; gap: 9px; font-size: 12px; font-weight: 550; padding: 7px 0; transition: color .15s; }
   .text-button:hover { color: #718a37; }
   .about-button span { font-size: 18px; }
@@ -39,14 +41,15 @@
   .saved-button:hover { background: #e9ecdf; }
   .saved-button .icon { width: 15px; height: 15px; }
   .count-badge { border-radius: 3px; font-size: 10px; background: #e5e9d9; padding: 2px 5px; min-width: 17px; text-align: center; }
-  .intro { display: flex; align-items: flex-end; justify-content: space-between; padding: 53px 0 40px; gap: 30px; }
+  .intro { border-left: 1px solid var(--line); padding-left: 28px; }
+  .intro .eyebrow { font-size: 8px; letter-spacing: 1.25px; }
   .eyebrow { font-size: 9px; font-weight: 650; letter-spacing: 1.7px; display: flex; align-items: center; gap: 9px; }
   .tiny-line { display: inline-block; width: 22px; height: 1px; background: #7e8a65; }
-  h1 { font-size: clamp(52px, 5.3vw, 68px); font-weight: 500; line-height: 1.06; letter-spacing: -3px; margin-top: 20px; position: relative; }
-  h1 em { font-family: var(--serif); font-size: 1.08em; font-weight: 400; letter-spacing: -2.8px; }
-  .title-star { display: inline-block; font-size: 46px; color: #95aa60; vertical-align: top; margin: 9px 0 0 23px; line-height: 1; transform: rotate(12deg); }
-  .intro-note { margin-bottom: 8px; max-width: 310px; color: #727a6e; font-size: 13px; line-height: 1.9; }
-  .privacy-note { font-size: 10px; color: #53664c; display: flex; align-items: center; gap: 7px; margin-top: 18px; }
+  h1 { font-size: clamp(25px, 2.6vw, 33px); font-weight: 500; line-height: 1.2; letter-spacing: -1px; margin-top: 7px; }
+  h1 em { font-family: var(--serif); font-size: 1.08em; font-weight: 400; letter-spacing: -1px; }
+  .title-star { display: inline-block; font-size: 23px; color: #95aa60; vertical-align: middle; margin: 0 0 3px 10px; line-height: 1; transform: rotate(12deg); }
+  .intro-note { margin-top: 7px; color: #727a6e; font-size: 10px; line-height: 1.7; }
+  .privacy-note { font-size: 9px; color: #53664c; display: flex; align-items: center; gap: 7px; }
   .status-dot { background: #6f8d41; width: 6px; height: 6px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
   .workbench { border: 1px solid #d8ddcc; border-radius: 13px; overflow: hidden; display: grid; grid-template-columns: 30% minmax(0, 1fr); background: #fcfcf8; box-shadow: 0 8px 28px #263a2312; }
   .settings { padding: 27px 26px 24px; background: #eeefe5; border-right: 1px solid #dce0d0; display: flex; flex-direction: column; }
@@ -177,11 +180,35 @@
 }
 
 @layer responsive {
-  @media (min-width: 1440px) { .site-shell { padding-top: 10px; } .intro { padding-top: 64px; padding-bottom: 45px; } .generator { min-height: 472px; } }
-  @media (max-width: 1050px) { .site-shell { padding: 0 32px; } .settings { padding: 24px 20px; } .generator { padding: 22px 25px; } .workbench { grid-template-columns: 31% minmax(0, 1fr); } .keyboard-tip { display: none; } .generated-name { font-size: 35px; } .intro-note { font-size: 12px; } .name-row { padding-left: 12px; } .row-actions { gap: 0; } .row-name { font-size: 10px; } }
-  @media (max-width: 760px) { .site-shell { padding: 0 23px; } .site-header { height: 82px; } .brand-caption { display: none; } .site-header nav { gap: 20px; } .intro { padding: 36px 0 30px; } h1 { font-size: 53px; letter-spacing: -2.5px; } .intro-note { max-width: 210px; font-size: 11px; } .title-star { font-size: 35px; margin-left: 14px; } .workbench { grid-template-columns: minmax(0, 1fr); } .settings { padding: 21px 24px; border-right: 0; border-bottom: 1px solid #dce0d0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 30px; } .section-heading { margin-bottom: 19px; grid-column: 1 / -1; } .level-heading { grid-column: 1; } input[type='range'] { grid-column: 1; } .level-stops { grid-column: 1; } .level-description { grid-column: 1; margin: 13px 0 0; min-height: auto; } .recipe-section { grid-column: 2; grid-row: 2 / 4; align-self: start; } .possibilities { grid-column: 2; grid-row: 4 / 6; margin: 0; padding-top: 14px; align-self: end; } .possibilities strong { font-size: 28px; } .availability-note { grid-column: 1 / -1; padding-top: 17px; font-size: 8px; } .availability-note br { display: none; } .generator { min-height: 360px; padding: 20px 24px; } .name-art { width: 110px; height: 69px; } .generated-name { font-size: clamp(30px, 5.5vw, 43px); } .generated-name.long-name { font-size: clamp(25px, 4.8vw, 36px); } .generated-name.extra-long-name { font-size: clamp(23px, 4.5vw, 31px); } .recent-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .row-name { font-size: 11px; } .site-footer > span:nth-child(2) { display: none; } .recent-header p { font-size: 9px; } .recent-actions { gap: 12px; } .export-button { font-size: 0; gap: 0; } .export-button .icon { width: 16px; height: 16px; } }
-  @media (max-width: 480px) { .site-shell { padding: 0 18px; } .site-header { height: 75px; } .brand { font-size: 29px; } .brand-mark { font-size: 35px; margin-right: 8px; } .site-header nav { gap: 16px; } .about-button { font-size: 10px; } .saved-button { padding: 8px 9px; font-size: 10px; gap: 6px; } .intro { display: block; padding-top: 32px; } .eyebrow { font-size: 7px; letter-spacing: 1.25px; } h1 { font-size: 53px; margin-top: 17px; } .intro-note { margin-top: 22px; max-width: none; font-size: 11px; line-height: 1.8; } .intro-note p br { display: none; } .privacy-note { font-size: 9px; margin-top: 11px; } .settings { padding: 19px; column-gap: 18px; } .level-heading label { font-size: 12px; } #level-index { font-size: 8px; } .section-heading { margin-bottom: 17px; } .section-heading .eyebrow { font-size: 7px; } .small-label { font-size: 7px; letter-spacing: .9px; } .recipe { gap: 4px; margin-top: 8px; } .recipe span { font-size: 8px; padding: 4px 5px; } .recipe b { font-size: 9px; } .level-description { font-size: 10px; } .possibilities strong { font-size: 25px; } .possibilities > span:last-child { font-size: 8px; } .generator { min-height: 342px; padding: 18px; } .generator-actions { gap: 8px; } .primary-button { padding: 14px 12px; font-size: 11px; gap: 7px; } .copy-button { min-width: 94px; padding: 13px 11px; font-size: 11px; gap: 6px; } .primary-button .arrow-icon { width: 14px; } .generated-name { font-size: 31px; letter-spacing: -1.1px; } .generated-name.long-name { font-size: 25px; } .generated-name.extra-long-name { font-size: 23px; } .name-subtitle { font-size: 13px; } .recent-section { padding-top: 28px; } .recent-header { align-items: flex-start; } .recent-header h2 { font-size: 17px; } .recent-header p { font-size: 9px; max-width: 175px; line-height: 1.7; } .batch-button { padding: 9px; font-size: 9px; white-space: nowrap; } .recent-actions { gap: 10px; padding-top: 2px; } .recent-grid { grid-template-columns: minmax(0, 1fr); } .row-name { font-size: 12px; } .name-row { padding: 11px 12px 11px 16px; min-height: 51px; } .row-actions .icon { width: 15px; height: 15px; } .row-actions .icon-button { padding: 7px; } .history-note { font-size: 8px; line-height: 1.7; } .site-footer { font-size: 8px; padding-top: 18px; } .site-footer > span:first-child { font-size: 10px; } dialog { padding: 24px 20px; } .dialog-header h2 { font-size: 26px; } }
+  @media (min-width: 1440px) { .site-shell { padding-top: 10px; } .generator { min-height: 472px; } }
+  @media (max-width: 1050px) { .site-shell { padding: 0 32px; } .settings { padding: 24px 20px; } .generator { padding: 22px 25px; } .workbench { grid-template-columns: 31% minmax(0, 1fr); } .keyboard-tip { display: none; } .generated-name { font-size: 35px; } .name-row { padding-left: 12px; } .row-actions { gap: 0; } .row-name { font-size: 10px; } }
+  @media (max-width: 760px) { .site-shell { padding: 0 23px; } .brand-caption { display: none; } .site-header nav { gap: 20px; } .workbench { grid-template-columns: minmax(0, 1fr); } .settings { padding: 21px 24px; border-right: 0; border-bottom: 1px solid #dce0d0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 30px; } .section-heading { margin-bottom: 19px; grid-column: 1 / -1; } .level-heading { grid-column: 1; } input[type='range'] { grid-column: 1; } .level-stops { grid-column: 1; } .level-description { grid-column: 1; margin: 13px 0 0; min-height: auto; } .recipe-section { grid-column: 2; grid-row: 2 / 4; align-self: start; } .possibilities { grid-column: 2; grid-row: 4 / 6; margin: 0; padding-top: 14px; align-self: end; } .possibilities strong { font-size: 28px; } .availability-note { grid-column: 1 / -1; padding-top: 17px; font-size: 8px; } .availability-note br { display: none; } .generator { min-height: 360px; padding: 20px 24px; } .name-art { width: 110px; height: 69px; } .generated-name { font-size: clamp(30px, 5.5vw, 43px); } .generated-name.long-name { font-size: clamp(25px, 4.8vw, 36px); } .generated-name.extra-long-name { font-size: clamp(23px, 4.5vw, 31px); } .recent-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .row-name { font-size: 11px; } .site-footer > span:nth-child(2) { display: none; } .recent-header p { font-size: 9px; } .recent-actions { gap: 12px; } .export-button { font-size: 0; gap: 0; } .export-button .icon { width: 16px; height: 16px; } }
+  @media (max-width: 480px) { .site-shell { padding: 0 18px; } .brand { font-size: 29px; } .brand-mark { font-size: 35px; margin-right: 8px; } .site-header nav { gap: 16px; } .about-button { font-size: 10px; } .saved-button { padding: 8px 9px; font-size: 10px; gap: 6px; } .eyebrow { font-size: 7px; letter-spacing: 1.25px; } .settings { padding: 19px; column-gap: 18px; } .level-heading label { font-size: 12px; } #level-index { font-size: 8px; } .section-heading { margin-bottom: 17px; } .section-heading .eyebrow { font-size: 7px; } .small-label { font-size: 7px; letter-spacing: .9px; } .recipe { gap: 4px; margin-top: 8px; } .recipe span { font-size: 8px; padding: 4px 5px; } .recipe b { font-size: 9px; } .level-description { font-size: 10px; } .possibilities strong { font-size: 25px; } .possibilities > span:last-child { font-size: 8px; } .generator { min-height: 342px; padding: 18px; } .generator-actions { gap: 8px; } .primary-button { padding: 14px 12px; font-size: 11px; gap: 7px; } .copy-button { min-width: 94px; padding: 13px 11px; font-size: 11px; gap: 6px; } .primary-button .arrow-icon { width: 14px; } .generated-name { font-size: 31px; letter-spacing: -1.1px; } .generated-name.long-name { font-size: 25px; } .generated-name.extra-long-name { font-size: 23px; } .name-subtitle { font-size: 13px; } .recent-section { padding-top: 28px; } .recent-header { align-items: flex-start; } .recent-header h2 { font-size: 17px; } .recent-header p { font-size: 9px; max-width: 175px; line-height: 1.7; } .batch-button { padding: 9px; font-size: 9px; white-space: nowrap; } .recent-actions { gap: 10px; padding-top: 2px; } .recent-grid { grid-template-columns: minmax(0, 1fr); } .row-name { font-size: 12px; } .name-row { padding: 11px 12px 11px 16px; min-height: 51px; } .row-actions .icon { width: 15px; height: 15px; } .row-actions .icon-button { padding: 7px; } .history-note { font-size: 8px; line-height: 1.7; } .site-footer { font-size: 8px; padding-top: 18px; } .site-footer > span:first-child { font-size: 10px; } dialog { padding: 24px 20px; } .dialog-header h2 { font-size: 26px; } }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
   @media (max-width: 480px) { .section-heading .eyebrow { font-size: 8px; } .small-label { font-size: 8px; } .availability-note { font-size: 9px; line-height: 1.75; } .history-note { font-size: 9px; } }
   @media (max-width: 760px) { .alliteration-setting { grid-column: 1 / -1; margin: 19px 0 0; padding-top: 14px; border-top: 1px solid #d8ddcb; } }
+
+  @media (max-width: 900px) {
+    .site-header { grid-template-columns: minmax(0, 1fr) auto; row-gap: 19px; padding: 22px 0; margin-bottom: 22px; }
+    .brand-group { gap: 7px; }
+    .intro { grid-column: 1 / -1; grid-row: 2; border-left: 0; padding-left: 0; }
+    h1 { font-size: 30px; }
+    .intro-note { max-width: none; }
+    .header-actions { gap: 9px; }
+  }
+  @media (max-width: 480px) {
+    .site-header { padding: 18px 0; gap: 16px; margin-bottom: 18px; }
+    .site-header nav { gap: 12px; }
+    .header-actions .privacy-note { font-size: 8px; }
+    .intro .eyebrow { font-size: 7px; letter-spacing: 1.1px; }
+    h1 { font-size: 27px; }
+    .intro-note { font-size: 9.5px; }
+    .title-star { font-size: 20px; margin-left: 7px; }
+  }
+  @media (max-width: 360px) {
+    .site-shell { padding: 0 14px; }
+    .brand { font-size: 25px; }
+    .brand-mark { font-size: 29px; margin-right: 6px; }
+    .site-header nav { gap: 9px; }
+  }
 }
