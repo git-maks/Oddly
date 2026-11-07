@@ -4,7 +4,7 @@
 
 Static HTML, CSS, and native JavaScript modules. No dependencies, accounts, API keys, database, tracking, or external fonts. Ready for GitHub Pages, including project URLs such as `username.github.io/any-repository-name/`.
 
-![Oddly username generator](docs/preview.jpg)
+[![Oddly – username generator with obscurity levels and optional alliteration](docs/preview.jpg)](docs/preview.jpg)
 
 ## Run locally
 
