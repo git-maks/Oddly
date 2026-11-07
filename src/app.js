@@ -189,7 +189,7 @@ function setLevel(value) {
   $('#obscurity').value = level;
   $('#obscurity').style.setProperty('--fill', `${level * 50}%`);
   $('#obscurity').setAttribute('aria-valuetext', `${config.name}: ${config.description}`);
-  $('#level-index').textContent = `0${level + 1}—03`;
+  $('#level-index').textContent = `0${level + 1}–03`;
   $('#level-description').textContent = config.description;
   updateCombinations();
   const recipe = [];
